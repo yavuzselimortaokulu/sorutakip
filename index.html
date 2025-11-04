@@ -385,7 +385,6 @@
     }
   }
 </style>
-
 <style id="teacher-genel-ders-dagilim-patch">
 /* Genel Özet → Derslere Göre dağılım tablosu: 2 satır kırpma ve yatay kaydırmayı engelleme */
 @media (max-width: 640px){
@@ -421,6 +420,51 @@
   #teacher-genel-ozet .table-container table thead tr th:not(:first-child),
   #teacher-genel-ozet .table-container table tbody tr td:not(:first-child){
     width: 3.25rem; /* ~52px */
+  }
+}
+</style>
+
+<style id="teacher-ders-dagilim-mobile-patch">
+/* Genel Özet → Derslere Göre dağılım tablosu: 2 satır, kaydırmasız mobil görünüm */
+@media (max-width: 640px){
+  /* Yana kaydırmayı kapat */
+  .ders-dagilim-wrap{ overflow-x: hidden !important; }
+
+  /* Tablo genişliği ve yerleşim */
+  table.ders-dagilim{
+    width: 100% !important;
+    min-width: 0 !important;       /* Tailwind min-w-[400px]'i geçersiz kıl */
+    table-layout: fixed !important; /* Sütunları sabitle, sarma için uygun */
+    border-collapse: separate;
+  }
+
+  /* Hücre metinlerinin sarımı ve sıkı padding */
+  table.ders-dagilim th,
+  table.ders-dagilim td{
+    white-space: normal !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    min-width: 0;
+    padding: 0.5rem 0.5rem !important; /* mobilde daha kompakt */
+  }
+
+  /* İlk sütun: Ders adı — en fazla 2 satır, daha küçük yazı */
+  table.ders-dagilim td:first-child{
+    font-size: 0.82rem !important;    /* ~13px */
+    line-height: 1.2 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* Ders sütununa alan önceliği; diğer sütunlar dar */
+  table.ders-dagilim th:first-child,
+  table.ders-dagilim td:first-child{ width: 55% !important; }
+  table.ders-dagilim thead th:not(:first-child),
+  table.ders-dagilim tbody td:not(:first-child){
+    width: 2.8rem !important; /* ~45px */
+    text-align: center !important;
   }
 }
 </style>
@@ -606,8 +650,8 @@
 </div>
 <div class="bg-black bg-opacity-20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white border-opacity-20">
 <h2 class="text-2xl font-bold mb-5 text-purple-300" id="today-entries-title">Son Eklenenler</h2>
-<div class="overflow-x-auto table-container">
-<table class="w-full min-w-[400px] text-left">
+<div class="table-container overflow-x-auto ders-dagilim-wrap">
+<table class="min-w-[400px] text-left ders-dagilim w-full">
 <thead class="border-b border-white border-opacity-30">
 <tr>
 <th class="py-2 px-3 text-sm font-semibold uppercase text-gray-300">Ders</th>
@@ -689,8 +733,8 @@
 </div>
 <div class="bg-transparent bg-opacity-20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white border-opacity-20" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <h3 class="text-lg font-semibold mb-4 text-purple-300">Derslere Göre Haftalık Döküm (Toplam Soru)</h3>
-<div class="overflow-x-auto table-container">
-<table class="w-full text-left">
+<div class="table-container overflow-x-auto ders-dagilim-wrap">
+<table class="text-left ders-dagilim w-full">
 <thead class="border-b border-white border-opacity-30">
 <tr>
 <th class="py-2 px-3 text-xs font-semibold uppercase text-gray-300 sticky left-0 z-10" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(10px);">Ders</th>
@@ -728,8 +772,8 @@
 </div>
 <div class="bg-transparent bg-opacity-20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white border-opacity-20" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <h3 class="text-lg font-semibold mb-4 text-purple-300">Aylık Ders Dökümü</h3>
-<div class="overflow-x-auto table-container">
-<table class="w-full min-w-[500px] text-left">
+<div class="table-container overflow-x-auto ders-dagilim-wrap">
+<table class="ders-dagilim text-left w-full min-w-[500px]">
 <thead class="border-b border-white border-opacity-30">
 <tr>
 <th class="py-2 px-3 text-sm font-semibold uppercase text-gray-300">Ders</th>
@@ -813,8 +857,8 @@
 <div class="lg:col-span-3">
 <div class="bg-transparent bg-opacity-20 backdrop-blur-lg rounded-2xl shadow-xl border border-white border-opacity-20 overflow-hidden" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <h3 class="text-xl font-semibold text-white p-6 border-b border-white border-opacity-10">Derslere Göre Dağılım</h3>
-<div class="overflow-x-auto">
-<table class="w-full min-w-full">
+<div class="overflow-x-auto ders-dagilim-wrap">
+<table class="w-full ders-dagilim min-w-full">
 <thead class="bg-white bg-opacity-10">
 <tr>
 <th class="py-3 px-6 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">Ders Adı</th>
@@ -913,8 +957,8 @@
 </div>
 <div class="bg-transparent bg-opacity-20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white border-opacity-20" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <h3 class="text-lg font-semibold mb-4 text-purple-300">Derslere Göre Haftalık Döküm (Toplam Soru)</h3>
-<div class="overflow-x-auto table-container">
-<table class="w-full text-left">
+<div class="table-container overflow-x-auto ders-dagilim-wrap">
+<table class="text-left ders-dagilim w-full">
 <thead class="border-b border-white border-opacity-30">
 <tr>
 <th class="py-2 px-3 text-xs font-semibold uppercase text-gray-300 sticky left-0 z-10" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(10px);">Ders</th>
@@ -952,8 +996,8 @@
 </div>
 <div class="bg-transparent bg-opacity-20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white border-opacity-20" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <h3 class="text-lg font-semibold mb-4 text-purple-300">Aylık Ders Dökümü</h3>
-<div class="overflow-x-auto table-container">
-<table class="w-full min-w-[500px] text-left">
+<div class="table-container overflow-x-auto ders-dagilim-wrap">
+<table class="ders-dagilim text-left w-full min-w-[500px]">
 <thead class="border-b border-white border-opacity-30">
 <tr>
 <th class="py-2 px-3 text-sm font-semibold uppercase text-gray-300">Ders</th>
@@ -1178,8 +1222,8 @@
 </div>
 <div class="mt-8 hidden" id="tsr-daily-details">
 <h3 class="text-lg font-semibold text-purple-300 mb-4" id="tsr-details-title">Seçilen Günün Detayları</h3>
-<div class="overflow-x-auto table-container">
-<table class="w-full min-w-[400px] text-left">
+<div class="table-container overflow-x-auto ders-dagilim-wrap">
+<table class="min-w-[400px] text-left ders-dagilim w-full">
 <thead class="border-b border-white border-opacity-30">
 <tr>
 <th class="py-2 px-3 text-sm font-semibold uppercase text-gray-300">Ders</th>
@@ -1213,8 +1257,8 @@
 </div>
 <div class="bg-transparent bg-opacity-20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white border-opacity-20" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <h3 class="text-lg font-semibold mb-4 text-purple-300">Derslere Göre Haftalık Döküm (Toplam Soru)</h3>
-<div class="overflow-x-auto table-container">
-<table class="w-full text-left">
+<div class="table-container overflow-x-auto ders-dagilim-wrap">
+<table class="text-left ders-dagilim w-full">
 <thead class="border-b border-white border-opacity-30">
 <tr>
 <th class="py-2 px-3 text-xs font-semibold uppercase text-gray-300 sticky left-0 z-10" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(10px);">Ders</th>
@@ -1252,8 +1296,8 @@
 </div>
 <div class="bg-transparent bg-opacity-20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white border-opacity-20" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <h3 class="text-lg font-semibold mb-4 text-purple-300">Aylık Ders Dökümü</h3>
-<div class="overflow-x-auto table-container">
-<table class="w-full min-w-[500px] text-left">
+<div class="table-container overflow-x-auto ders-dagilim-wrap">
+<table class="ders-dagilim text-left w-full min-w-[500px]">
 <thead class="border-b border-white border-opacity-30">
 <tr>
 <th class="py-2 px-3 text-sm font-semibold uppercase text-gray-300">Ders</th>
