@@ -342,7 +342,6 @@
     #getGeminiSummary { min-height: 48px; }
   }
 </style>
-
 <style id="teacher-genel-mobile-patch">
   /* Öğretmen Paneli → Genel Özet mobil entegrasyonu */
   @media (max-width: 640px){
@@ -385,6 +384,45 @@
       max-width: 100%;
     }
   }
+</style>
+
+<style id="teacher-genel-ders-dagilim-patch">
+/* Genel Özet → Derslere Göre dağılım tablosu: 2 satır kırpma ve yatay kaydırmayı engelleme */
+@media (max-width: 640px){
+  /* Tablo sarmalayıcıda yatay kaydırmayı kapat */
+  #teacher-genel-ozet .table-container{
+    overflow-x: hidden !important;
+  }
+  /* Tabloda sabit yerleşim ve esnek kırılma */
+  #teacher-genel-ozet .table-container table{
+    table-layout: fixed !important;
+    width: 100% !important;
+    border-collapse: separate; /* mevcut stilleri bozmamak için */
+  }
+  /* Hücrelerde metin sarımı ve daralmasına izin ver */
+  #teacher-genel-ozet .table-container table th,
+  #teacher-genel-ozet .table-container table td{
+    white-space: normal !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+  /* İlk sütun (Ders) en fazla iki satır gösterilsin */
+  #teacher-genel-ozet .table-container table tbody tr td:first-child{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.25rem; /* ~20px */
+    max-height: calc(1.25rem * 2); /* 2 satır */
+  }
+  /* Gün sütunlarını daha dar tut (sayılar genelde 2-3 haneli) */
+  #teacher-genel-ozet .table-container table thead tr th:not(:first-child),
+  #teacher-genel-ozet .table-container table tbody tr td:not(:first-child){
+    width: 3.25rem; /* ~52px */
+  }
+}
 </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-800 via-purple-800 to-indigo-900 text-white min-h-screen">
@@ -3421,4 +3459,3 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('DOMContentLoaded', applyCalendarSizing);
 })();
 </script>
-
