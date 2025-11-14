@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fissler Pişirme Rehberi</title>
     
-    <!-- Tailwind CSS (Modern Tasarım İçin) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Font Awesome (İkonlar İçin) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -53,12 +50,11 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Seçim Kutusu Oku Özelleştirme */
         select {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3e%3c/path%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3e%3c/path%3e%3c/svg'%3e");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 1em;
@@ -69,11 +65,9 @@
 
     <div class="max-w-lg w-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
         
-        <!-- HEADER -->
-        <div class="bg-gradient-to-r from-blue-900 to-blue-700 p-8 text-center relative overflow-hidden">
-            <!-- Dekoratif Arka Plan Daireleri -->
+        <!-- HEADER --><div class="bg-gradient-to-r from-blue-900 to-blue-700 p-8 text-center relative overflow-hidden">
             <div class="absolute top-0 left-0 w-24 h-24 bg-white opacity-5 rounded-full -translate-x-10 -translate-y-10"></div>
-            <div class="absolute bottom-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full translate-x-10 translate-y-10"></div>
+            <div class="absolute bottom-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full translate-x-10 -translate-y-10"></div>
             
             <div class="relative z-10">
                 <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner border border-white/30">
@@ -86,10 +80,8 @@
 
         <div class="p-8 space-y-6">
             
-            <!-- SEÇİM ALANI -->
-            <div class="space-y-5">
-                <!-- 1. Pişirme Tipi -->
-                <div class="relative group">
+            <!-- SEÇİM ALANI --><div class="space-y-5">
+                <!-- 1. Pişirme Tipi --><div class="relative group">
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">
                         <i class="fa-solid fa-fire-burner mr-1 text-orange-500"></i> Pişirme Yöntemi
                     </label>
@@ -102,8 +94,7 @@
                     </div>
                 </div>
 
-                <!-- 2. Kategori -->
-                <div class="relative group">
+                <!-- 2. Kategori --><div class="relative group">
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">
                         <i class="fa-solid fa-layer-group mr-1 text-blue-500"></i> Kategori
                     </label>
@@ -112,8 +103,7 @@
                     </select>
                 </div>
 
-                <!-- 3. Ürün -->
-                <div class="relative group">
+                <!-- 3. Ürün --><div class="relative group">
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">
                         <i class="fa-solid fa-carrot mr-1 text-green-500"></i> Ürün
                     </label>
@@ -122,8 +112,7 @@
                     </select>
                 </div>
 
-                <!-- 4. Hazırlık -->
-                <div class="relative group">
+                <!-- 4. Hazırlık --><div class="relative group">
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">
                         <i class="fa-solid fa-list-check mr-1 text-purple-500"></i> Hazırlık Detayı
                     </label>
@@ -133,26 +122,22 @@
                 </div>
             </div>
 
-            <!-- SONUÇ ALANI (Kartlar) -->
-            <div id="sonucAlani" class="hidden fade-in pt-4 border-t border-slate-100 mt-6">
+            <!-- SONUÇ ALANI (Kartlar) --><div id="sonucAlani" class="hidden fade-in pt-4 border-t border-slate-100 mt-6">
                 
                 <div class="text-center mb-6">
                     <h2 class="text-lg font-bold text-slate-800" id="sonucSecimBaslik">--</h2>
                     <div class="h-1 w-16 bg-orange-500 mx-auto rounded-full mt-2"></div>
                 </div>
 
-                <!-- Bilgi Kartları Grid -->
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <!-- Basınç Kartı -->
-                    <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 flex flex-col items-center justify-center text-center">
+                <!-- Bilgi Kartları Grid --><div class="grid grid-cols-2 gap-4 mb-6">
+                    <!-- Basınç Kartı --><div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 flex flex-col items-center justify-center text-center">
                         <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-2">
                             <i class="fa-solid fa-gauge-high text-lg"></i>
                         </div>
                         <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Basınç</span>
                         <span id="sonucAyar" class="font-bold text-slate-700 text-sm mt-1">--</span>
                     </div>
-                    <!-- Süre Kartı -->
-                    <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 flex flex-col items-center justify-center text-center">
+                    <!-- Süre Kartı --><div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 flex flex-col items-center justify-center text-center">
                         <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">
                             <i class="fa-regular fa-clock text-lg"></i>
                         </div>
@@ -161,8 +146,7 @@
                     </div>
                 </div>
 
-                <!-- Tarif Kartı -->
-                <div class="bg-white border-l-4 border-blue-600 shadow-sm rounded-r-xl p-5 mb-6 relative overflow-hidden">
+                <!-- Tarif Kartı --><div class="bg-white border-l-4 border-blue-600 shadow-sm rounded-r-xl p-5 mb-6 relative overflow-hidden">
                     <div class="absolute top-0 right-0 -mt-2 -mr-2 w-16 h-16 bg-blue-50 rounded-full opacity-50"></div>
                     <h3 class="font-bold text-blue-900 flex items-center mb-2">
                         <i class="fa-solid fa-book-open mr-2"></i> Hazırlanışı
@@ -170,39 +154,38 @@
                     <p id="sonucTarif" class="text-sm text-slate-600 leading-relaxed"></p>
                 </div>
 
-                <!-- İpucu -->
-                <div class="flex items-start space-x-3 bg-yellow-50 p-4 rounded-xl border border-yellow-100 mb-6">
+                <!-- İpucu --><div class="flex items-start space-x-3 bg-yellow-50 p-4 rounded-xl border border-yellow-100 mb-6">
                     <i class="fa-regular fa-lightbulb text-yellow-500 mt-1 flex-shrink-0"></i>
                     <p id="sonucIpucu" class="text-sm text-slate-600 italic"></p>
                 </div>
 
-                <!-- Sayaç Alanı -->
-                <div class="bg-slate-900 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden">
-                    <!-- Background Glow -->
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-20"></div>
+                <!-- Sayaç Alanı --><div class="bg-slate-900 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden min-h-[200px] flex flex-col justify-center">
+                    <!-- Background Glow --><div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-20"></div>
                     
-                    <div id="timerDisplay" class="text-5xl font-mono font-bold text-white relative z-10 tracking-wider mb-6 tabular-nums">00:00</div>
+                    <!-- Sayaç Göstergesi (Değişken İçerik) -->
+                    <div id="timerDisplay" class="text-5xl font-mono font-bold text-white relative z-10 tracking-wider mb-6 tabular-nums transition-all duration-300">00:00</div>
                     
-                    <button id="startTimerBtn" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-green-500/30 transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center">
-                        <i class="fa-solid fa-play mr-2"></i> Zamanlayıcıyı Başlat
-                    </button>
-                    
-                    <button id="stopTimerBtn" class="hidden w-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-red-500/30 transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center">
-                        <i class="fa-solid fa-rotate-left mr-2"></i> Sıfırla
-                    </button>
+                    <!-- Butonlar -->
+                    <div class="relative z-10">
+                        <button id="startTimerBtn" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-green-500/30 transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center">
+                            <i class="fa-solid fa-play mr-2"></i> Zamanlayıcıyı Başlat
+                        </button>
+                        
+                        <button id="stopTimerBtn" class="hidden w-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-red-500/30 transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center">
+                            <i class="fa-solid fa-rotate-left mr-2"></i> Sıfırla
+                        </button>
+                    </div>
                 </div>
 
             </div>
         </div>
         
-        <!-- Footer -->
-        <div class="bg-slate-50 p-4 text-center border-t border-slate-200">
+        <!-- Footer --><div class="bg-slate-50 p-4 text-center border-t border-slate-200">
             <p class="text-xs text-slate-400">© 2025 Fissler Asistanı - Güvenli Pişirme</p>
         </div>
     </div>
 
-    <!-- MODAL (AÇILIR PENCERE) -->
-    <div id="modalOverlay" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 fade-in">
+    <!-- MODAL (AÇILIR PENCERE) --><div id="modalOverlay" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 fade-in">
         <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center slide-down border-t-4 border-orange-500">
             <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-500">
                 <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
@@ -222,9 +205,10 @@
     </div>
 
 
-    <!-- JAVASCRIPT MANTIĞI (Değişmeden Korundu) -->
-    <script>
+    <!-- JAVASCRIPT MANTIĞI (TAMAMI BURADA) --><script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Global AudioContext değişkeni
+            let audioCtx;
 
             const kategoriIsimleri = {
                 sebze: "Sebzeler",
@@ -236,7 +220,6 @@
                 diger: "Diğer (Kemik Suyu vb.)"
             };
 
-            // --- VERİ TABANI (v11 - Bakliyat Güncellemesi) ---
             const pisirmeVerisi = {
                 buharli: {
                     sebze: {
@@ -387,7 +370,7 @@
                             iskembe_haslama: { isim: "İşkembe Haşlama (Doğranmış)", ayar: "2. Halka (Yüksek)", sure: "35-45 Dakika", ipucu: "Sirkeli suda bekletin.", tarif: "Güzelce temizlenmiş işkembeyi tencereye alın. Su ekleyin. Piştikten sonra ayrı bir tencerede terbiyesini yapın." }
                         },
                         "Kelle Paça Çorbası": {
-                            paca_haslama: { isim: "Paça Eti Haşlama", ayar: "2. Halka (Yüksek)", sure: "40-50 Dakika", ipucu: "Sarımsaklı sosla.", tarif: "Etleri/kemiği tencereye alın. Bol su ekleyin. Piştikten sonra etleri didikleyin ve suyuna geri ekleyin." }
+                            paca_haslama: { isim: "Paça Eti Haşlama", ayar: "2. Halka (Düşük)", sure: "40-50 Dakika", ipucu: "Sarımsaklı sosla.", tarif: "Etleri/kemiği tencereye alın. Bol su ekleyin. Piştikten sonra etleri didikleyin ve suyuna geri ekleyin." }
                         }
                     }
                 }
@@ -399,7 +382,7 @@
             const urunSelect = document.getElementById("urunSelect");
             const hazirlikSelect = document.getElementById("hazirlikSelect");
             const sonucAlani = document.getElementById("sonucAlani");
-            const sonucSecimBaslik = document.getElementById("sonucSecimBaslik"); // Başlık için yeni ID
+            const sonucSecimBaslik = document.getElementById("sonucSecimBaslik"); 
             const sonucAyar = document.getElementById("sonucAyar");
             const sonucSure = document.getElementById("sonucSure");
             const sonucIpucu = document.getElementById("sonucIpucu");
@@ -419,9 +402,8 @@
             let timerInterval = null; 
             let totalSeconds = 0;
             let currentPressureSetting = ""; 
-            let audioContext = null;
 
-            // --- OLAY DİNLEYİCİLERİ ---
+            // --- OLAY DİNLEYİCİLERİ (DÜZELTİLDİ) ---
 
             pisirmeTipiSelect.addEventListener("change", function() {
                 const secilenTip = this.value; 
@@ -505,10 +487,13 @@
 
                     totalSeconds = parseTimeToSeconds(sonuc.sure);
                     currentPressureSetting = sonuc.ayar; 
+                    
+                    // Timer display'i sıfırla (büyük font)
+                    timerDisplay.className = "text-5xl font-mono font-bold text-white relative z-10 tracking-wider mb-6 tabular-nums transition-all duration-300";
+                    timerDisplay.innerHTML = ""; // Önceki emojiyi temizle
                     timerDisplay.textContent = formatTime(totalSeconds);
                     
                     sonucAlani.classList.remove("hidden");
-                    // Sonuç alanına yumuşak kaydırma
                     sonucAlani.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
                     sonucAlani.classList.add("hidden");
@@ -516,6 +501,16 @@
             });
 
             // --- SAYAÇ VE MODAL İŞLEMLERİ ---
+            
+            // Ses bağlamını başlatma fonksiyonu (Kullanıcı etkileşimi ile çağrılmalı)
+            function initAudio() {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+            }
 
             startTimerBtn.addEventListener("click", function() {
                 const halkaNumarasi = currentPressureSetting.split('.')[0] || "Gerekli"; 
@@ -523,10 +518,16 @@
                 modalOverlay.classList.remove("hidden");
             });
 
+            // MODAL "EVET" TIKLANDIĞINDA:
             modalEvetBtn.addEventListener("click", function() {
+                // 1. KRİTİK ADIM: Kullanıcı tıkladığı anda ses motorunu ateşle
+                initAudio();
+                
+                // 2. SAYACI BAŞLAT
                 modalOverlay.classList.add("hidden");
                 startTimerBtn.classList.add("hidden");
                 stopTimerBtn.classList.remove("hidden");
+                
                 if (timerInterval) clearInterval(timerInterval); 
                 timerInterval = setInterval(updateTimer, 1000);
             });
@@ -542,9 +543,17 @@
             function updateTimer() {
                 if (totalSeconds <= 0) {
                     clearInterval(timerInterval);
-                    timerDisplay.textContent = "AFİYET OLSUN!";
-                    timerDisplay.classList.add("text-green-400");
-                    playAlarm(); 
+                    
+                    // -- SÜRE BİTTİ GÖRSELİ (KÜÇÜK YAZI + EMOJİ) --
+                    timerDisplay.className = "relative z-10 transition-all duration-300 text-center mb-4 pt-2"; // Yeni stiller
+                    timerDisplay.innerHTML = `
+                        <div class="flex flex-col items-center animate-bounce">
+                            <span class="text-6xl mb-2">🍲</span>
+                            <span class="text-3xl font-bold text-green-400" style="font-family: 'Poppins', sans-serif;">AFİYET OLSUN!</span>
+                        </div>
+                    `;
+                    
+                    playAlarm(); // Ses burada çağrılır
                     stopTimerBtn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Kapat';
                     return;
                 }
@@ -558,7 +567,10 @@
                 startTimerBtn.classList.remove("hidden");
                 stopTimerBtn.classList.add("hidden");
                 stopTimerBtn.innerHTML = '<i class="fa-solid fa-rotate-left mr-2"></i> Sıfırla';
-                timerDisplay.classList.remove("text-green-400");
+                
+                // Yazıyı eski haline getir
+                timerDisplay.className = "text-5xl font-mono font-bold text-white relative z-10 tracking-wider mb-6 tabular-nums transition-all duration-300";
+                timerDisplay.innerHTML = ""; // innerHTML'i temizle
                 
                 const secilenTip = pisirmeTipiSelect.value;
                 const secilenKategori = kategoriSelect.value;
@@ -575,6 +587,7 @@
             }
 
             function parseTimeToSeconds(timeString) {
+                // Sadece ilk sayıyı alır (örn: "8-10 Dakika" -> 8)
                 const match = timeString.match(/(\d+)/); 
                 if (match) {
                     return parseInt(match[1], 10) * 60; 
@@ -589,23 +602,34 @@
             }
             
             function playAlarm() {
-                try {
-                    if (!audioContext) {
-                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    }
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    oscillator.type = 'sine'; 
-                    oscillator.frequency.setValueAtTime(880, audioContext.currentTime); 
-                    gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 1); 
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 1);
-                } catch (e) {
-                    console.error("Alarm sesi çalınamadı:", e);
+                if (!audioCtx) return;
+
+                const duration = 5; // 5 saniye
+                const startTime = audioCtx.currentTime;
+                const endTime = startTime + duration;
+                
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.type = 'square'; // Keskin "alarm" sesi
+                oscillator.frequency.setValueAtTime(900, startTime); // Yüksek frekans
+
+                const volume = 0.2; // Ses şiddeti
+                
+                // Her 0.5 saniyede bir bip (Bip... Bip...)
+                for (let i = 0; i < duration * 2; i++) { 
+                    let time = startTime + i * 0.5;
+                    gainNode.gain.setValueAtTime(volume, time);
+                    gainNode.gain.setValueAtTime(0, time + 0.2); // 0.2sn ses, 0.3sn sessizlik
                 }
+                
+                gainNode.gain.setValueAtTime(0, endTime); // 5 saniye sonunda sesi kes
+                
+                oscillator.start(startTime);
+                oscillator.stop(endTime);
             }
 
             function resetSelect(selectElement, defaultText) {
@@ -616,7 +640,6 @@
                 selectElement.appendChild(defaultOption);
                 selectElement.disabled = true;
             }
-
         });
     </script>
 </body>
