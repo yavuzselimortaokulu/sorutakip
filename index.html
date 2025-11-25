@@ -187,6 +187,7 @@
     background-color: rgba(0, 0, 0, 0.35);
   }
 </style>
+
 <style id="report-tab-container-gradient">
   /* Rapor sekmesi kök kapsayıcılarının (panel-tab-content) arka planını da mor degrade yap */
   #student-panel .panel-tab-content#gunluk-rapor,
@@ -360,13 +361,17 @@
 <style id="teacher-genel-mobile-patch">
   /* Öğretmen Paneli → Genel Özet mobil entegrasyonu */
   @media (max-width: 640px){
-    /* KPI ızgarasını mobilde HER SATIRA 1 kart gelecek şekilde ayarla */
+    /* KPI ızgarasını mobilde 2 sütuna düşür (çok dar ekranlarda 1 sütun) */
     #teacher-genel-ozet .grid.mb-6{
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0,1fr));
       gap: 0.75rem !important; /* ~gap-3 */
     }
-
+    @media (max-width: 380px){
+      #teacher-genel-ozet .grid.mb-6{
+        grid-template-columns: 1fr;
+      }
+    }
     /* KPI kartları: padding küçült, tipografi sıkılaştır */
     #teacher-genel-ozet .grid.mb-6 > div{
       padding: 0.875rem !important; /* p-3.5 */
@@ -379,7 +384,7 @@
     #teacher-genel-ozet .grid.mb-6 .text-lg{ font-size: 1rem !important; }
     #teacher-genel-ozet .grid.mb-6 .text-3xl{ font-size: 1.5rem !important; } /* sayılar */
     #teacher-genel-ozet .grid.mb-6 .p-3{ padding: 0.5rem !important; } /* ikon arka planı */
-
+    
     /* Sınıf bar grafiği mobil yükseklik ayarı */
     #teacher-genel-ozet .h-80{
       height: 18rem !important; /* ~288px */
@@ -434,6 +439,7 @@
   }
 }
 </style>
+
 <style id="teacher-ders-dagilim-mobile-patch">
 /* Genel Özet → Derslere Göre dağılım tablosu: 2 satır, kaydırmasız mobil görünüm */
 @media (max-width: 640px){
@@ -803,22 +809,7 @@
 </div>
 </div>
 </div>
-<div class="modal-backdrop" id="studentTeacherMsgModal">
-<div class="modal-content bg-transparent bg-opacity-20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white border-opacity-20 max-w-lg mx-auto">
-<div class="flex justify-between items-center mb-4">
-<h2 class="text-2xl font-bold text-purple-300">Öğretmen Mesajı</h2>
 </div>
-<p class="text-sm text-purple-200 mb-3" id="student-teacher-msg-from-line"></p>
-<div class="bg-black bg-opacity-30 rounded-xl p-4 border border-white border-opacity-10 mb-6">
-<p class="whitespace-pre-wrap text-gray-100" id="student-teacher-msg-text"></p>
-</div>
-<div class="flex justify-center">
-<button class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900" id="student-teacher-msg-close-btn">
-        Kapat ve Sil
-      </button>
-</div>
-</div>
-</div></div>
 <div class="hidden" id="parent-panel">
 <nav class="bg-transparent bg-opacity-20 backdrop-blur-lg shadow-lg border-b border-white border-opacity-10 sticky top-0 z-50" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1207,8 +1198,9 @@
 <p class="text-gray-200 mb-4">Bu alan, seçili öğrenci için öğretmen tarafından bırakılan not veya mesaj içindir.</p>
 <div class="space-y-3">
 <textarea class="w-full p-3 rounded-lg dark-input min-h-[120px]" id="tsr-teacher-msg-input" placeholder="Mesajınızı yazın..."></textarea>
-<button class="mx-auto block bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition" id="tsr-teacher-msg-save">Mesajı Gönder</button>
+<button id="tsr-teacher-msg-save" class="mx-auto block bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition">Mesajı Gönder</button>
 </div>
+
 </div>
 </div>
 <div>
@@ -1337,6 +1329,22 @@
 </div>
 </div>
 </div>
+</div>
+<div class="modal-backdrop" id="studentTeacherMsgModal">
+  <div class="modal-content bg-transparent bg-opacity-20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white border-opacity-20 max-w-lg mx-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-purple-300">Öğretmen Mesajı</h2>
+    </div>
+    <p id="student-teacher-msg-from-line" class="text-sm text-purple-200 mb-3"></p>
+    <div class="bg-black bg-opacity-30 rounded-xl p-4 border border-white border-opacity-10 mb-6">
+      <p id="student-teacher-msg-text" class="whitespace-pre-wrap text-gray-100"></p>
+    </div>
+    <div class="flex justify-end">
+      <button id="student-teacher-msg-close-btn" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900">
+        Kapat ve Sil
+      </button>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -1569,33 +1577,6 @@ document.getElementById('parent-panel').classList.remove('hidden');
         }
 
         // Öğrenci panelinde öğretmen mesajını gösteren modal yardımcıları
-        
-        function getTurkishAblativeSuffix(name) {
-            if (!name) return "den";
-            var stem = String(name).trim();
-            if (!stem) return "den";
-            var lower = stem.toLocaleLowerCase('tr-TR');
-            var vowelsFront = "eiöü";
-            var vowelsBack = "aıou";
-            var lastVowel = null;
-            for (var i = lower.length - 1; i >= 0; i--) {
-                var ch = lower.charAt(i);
-                if (vowelsFront.indexOf(ch) !== -1 || vowelsBack.indexOf(ch) !== -1) {
-                    lastVowel = ch;
-                    break;
-                }
-            }
-            var vowel = 'e';
-            if (lastVowel && vowelsBack.indexOf(lastVowel) !== -1) {
-                vowel = 'a';
-            }
-            var lettersOnly = lower.replace(/[^a-zçğıöşü]/g, "");
-            var lastLetter = lettersOnly ? lettersOnly.charAt(lettersOnly.length - 1) : "";
-            var voiceless = "fstkçşhp";
-            var consonant = voiceless.indexOf(lastLetter) !== -1 ? 't' : 'd';
-            return consonant + vowel + 'n';
-        }
-
         function showStudentTeacherMessageModal(msgObj) {
             try {
                 var modal = document.getElementById('studentTeacherMsgModal');
@@ -1604,12 +1585,10 @@ document.getElementById('parent-panel').classList.remove('hidden');
                 var fromLineEl = document.getElementById('student-teacher-msg-from-line');
                 var textEl = document.getElementById('student-teacher-msg-text');
 
-                var teacherNameRaw = (msgObj && (msgObj.byName || msgObj.by)) ? (msgObj.byName || msgObj.by) : 'Öğretmen';
-                var teacherName = (typeof toTitleCaseTR === 'function') ? toTitleCaseTR(teacherNameRaw) : teacherNameRaw;
-                var ablSuffix = getTurkishAblativeSuffix(teacherName);
+                var teacherName = (msgObj && (msgObj.byName || msgObj.by)) ? (msgObj.byName || msgObj.by) : 'Öğretmen';
 
                 if (fromLineEl) {
-                    fromLineEl.textContent = 'Öğretmenin ' + teacherName + "'" + ablSuffix + ' mesaj var.';
+                    fromLineEl.textContent = 'Öğretmen ' + teacherName + '’den mesaj var.';
                 }
                 if (textEl) {
                     textEl.textContent = (msgObj && msgObj.text) ? msgObj.text : '';
@@ -1628,9 +1607,8 @@ document.getElementById('parent-panel').classList.remove('hidden');
             }
         }
 
-
         // Öğrenci girişi sonrasında, varsa öğretmen mesajını kontrol edip göster
-                function checkStudentTeacherMessage() {
+        function checkStudentTeacherMessage() {
             try {
                 if (typeof database === 'undefined' || !database || !database.ref) return;
                 if (currentUserRole !== 'ogrenci') return;
@@ -1638,15 +1616,21 @@ document.getElementById('parent-panel').classList.remove('hidden');
                 var sid = currentStudentId;
                 if (!sid) return;
 
-                var primaryRef = database.ref('students/' + sid + '/teacherMessage');
-                var legacyRef  = database.ref('users/ogrenciler/' + sid + '/ogretmenMesaji');
+                var msgRef = database.ref('users/ogrenciler/' + sid + '/ogretmenMesaji');
 
-                function bindCloseButton(refToClear) {
+                msgRef.once('value').then(function(snapshot){
+                    if (!snapshot.exists()) return;
+
+                    var data = snapshot.val() || {};
+                    if (!data.text) return;
+
+                    showStudentTeacherMessageModal(data);
+
                     var btn = document.getElementById('student-teacher-msg-close-btn');
                     if (btn && !btn.dataset.boundTeacherMsg) {
                         btn.dataset.boundTeacherMsg = 'true';
                         btn.addEventListener('click', function(){
-                            refToClear.remove()
+                            msgRef.remove()
                                 .catch(function(err){
                                     console.error('Öğretmen mesajı silinemedi:', err);
                                 })
@@ -1663,36 +1647,6 @@ document.getElementById('parent-panel').classList.remove('hidden');
                                 });
                         });
                     }
-                }
-
-                primaryRef.once('value').then(function(snapshot){
-                    if (snapshot && snapshot.exists()) {
-                        var raw = snapshot.val() || {};
-                        if (!raw.msg) return;
-
-                        var data = {
-                            text: raw.msg,
-                            byName: raw.teacher || 'Öğretmen',
-                            at: raw.ts || null
-                        };
-
-                        showStudentTeacherMessageModal(data);
-                        bindCloseButton(primaryRef);
-                        return;
-                    }
-
-                    // Eski path'ten de kontrol et (geriye dönük uyumluluk)
-                    legacyRef.once('value').then(function(snapshotOld){
-                        if (!snapshotOld || !snapshotOld.exists()) return;
-
-                        var legacy = snapshotOld.val() || {};
-                        if (!legacy.text) return;
-
-                        showStudentTeacherMessageModal(legacy);
-                        bindCloseButton(legacyRef);
-                    }).catch(function(err){
-                        console.error('Eski öğretmen mesajı kontrol edilirken hata:', err);
-                    });
                 }).catch(function(err){
                     console.error('Öğretmen mesajı kontrol edilirken hata:', err);
                 });
@@ -3571,7 +3525,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // === ÖĞRETMEN MESAJI SEKME MANTIĞI (Firebase tabanlı) ===
 (function(){
   function pathForStudentMessage(id){
-    return 'students/' + id + '/teacherMessage';
+    return 'users/ogrenciler/' + id + '/ogretmenMesaji';
   }
 
   function attachTeacherMessageHandlers(){
@@ -3598,12 +3552,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
       try {
         var payload = {
-          msg: t,
-          teacher: (typeof currentUserName !== 'undefined' && currentUserName) ? currentUserName : 'Öğretmen',
-          ts: Date.now(),
-          fromTeacherId: (typeof currentTeacherId !== 'undefined')
-            ? currentTeacherId
-            : ((typeof currentUserId !== 'undefined') ? currentUserId : null)
+          text: t,
+          byName: (typeof currentUserName !== 'undefined' && currentUserName) ? currentUserName : 'Öğretmen',
+          byId: (typeof currentUserId !== 'undefined') ? currentUserId : null,
+          at: new Date().toISOString()
         };
 
         if (typeof database === 'undefined' || !database || !database.ref) {
