@@ -187,7 +187,6 @@
     background-color: rgba(0, 0, 0, 0.35);
   }
 </style>
-
 <style id="report-tab-container-gradient">
   /* Rapor sekmesi kök kapsayıcılarının (panel-tab-content) arka planını da mor degrade yap */
   #student-panel .panel-tab-content#gunluk-rapor,
@@ -359,19 +358,15 @@
   }
 </style>
 <style id="teacher-genel-mobile-patch">
-  /* Öğretmen Paneli → Genel Özet mobil entegrasyonu */
+  /* Öğretmen Paneli → Genel Özet mobil entegrasyonu (mobilde bilgi kartları tek sütun) */
   @media (max-width: 640px){
-    /* KPI ızgarasını mobilde 2 sütuna düşür (çok dar ekranlarda 1 sütun) */
+    /* KPI ızgarasını mobilde HER SATIRA 1 kart gelecek şekilde ayarla */
     #teacher-genel-ozet .grid.mb-6{
       display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
+      grid-template-columns: 1fr;
       gap: 0.75rem !important; /* ~gap-3 */
     }
-    @media (max-width: 380px){
-      #teacher-genel-ozet .grid.mb-6{
-        grid-template-columns: 1fr;
-      }
-    }
+
     /* KPI kartları: padding küçült, tipografi sıkılaştır */
     #teacher-genel-ozet .grid.mb-6 > div{
       padding: 0.875rem !important; /* p-3.5 */
@@ -384,7 +379,7 @@
     #teacher-genel-ozet .grid.mb-6 .text-lg{ font-size: 1rem !important; }
     #teacher-genel-ozet .grid.mb-6 .text-3xl{ font-size: 1.5rem !important; } /* sayılar */
     #teacher-genel-ozet .grid.mb-6 .p-3{ padding: 0.5rem !important; } /* ikon arka planı */
-    
+
     /* Sınıf bar grafiği mobil yükseklik ayarı */
     #teacher-genel-ozet .h-80{
       height: 18rem !important; /* ~288px */
@@ -393,7 +388,7 @@
       max-height: 288px !important;
     }
 
-    /* Kart içi metinleri daha rahat sığdırabilmek için */
+    /* Kart içi metinlerini daha rahat sığdırabilmek için */
     #teacher-stat-daily-name,
     #teacher-stat-weekly-name,
     #teacher-stat-monthly-name{
@@ -439,7 +434,6 @@
   }
 }
 </style>
-
 <style id="teacher-ders-dagilim-mobile-patch">
 /* Genel Özet → Derslere Göre dağılım tablosu: 2 satır, kaydırmasız mobil görünüm */
 @media (max-width: 640px){
@@ -483,6 +477,115 @@
     text-align: center !important;
   }
 }
+</style>
+<style id="raporlar-mobile-patch">
+  /* Öğrenci, Veli ve Öğrenci Detayı → Günlük / Haftalık / Aylık raporları için mobil optimizasyon */
+  @media (max-width: 640px){
+
+    /* Ortak: rapor kartları biraz daha kompakt olsun */
+    #gunluk-rapor .bg-transparent,
+    #haftalik-rapor .bg-transparent,
+    #aylik-rapor .bg-transparent,
+    #parent-gunluk-rapor .bg-transparent,
+    #parent-haftalik-rapor .bg-transparent,
+    #parent-aylik-rapor .bg-transparent,
+    #studentDetailModal #tsr-gunluk-rapor .bg-transparent,
+    #studentDetailModal #tsr-haftalik-rapor .bg-transparent,
+    #studentDetailModal #tsr-aylik-rapor .bg-transparent{
+      padding: 0.9rem !important;
+      border-radius: 0.9rem !important;
+    }
+
+    #gunluk-rapor h2,
+    #haftalik-rapor h2,
+    #aylik-rapor h2,
+    #parent-gunluk-rapor h2,
+    #parent-haftalik-rapor h2,
+    #parent-aylik-rapor h2,
+    #studentDetailModal #tsr-gunluk-rapor h2,
+    #studentDetailModal #tsr-haftalik-rapor h2,
+    #studentDetailModal #tsr-aylik-rapor h2{
+      font-size: 1.25rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+
+    /* Günlük rapor: ay navigasyonu satırı (önceki / sonraki ay butonları) */
+    #gunluk-rapor .flex.justify-between.items-center,
+    #parent-gunluk-rapor .flex.justify-between.items-center,
+    #studentDetailModal #tsr-gunluk-rapor .flex.justify-between.items-center{
+      flex-wrap: wrap;
+      row-gap: 0.5rem;
+      column-gap: 0.75rem;
+      justify-content: center;
+    }
+    #gunluk-rapor .flex.justify-between.items-center h3,
+    #parent-gunluk-rapor .flex.justify-between.items-center h3,
+    #studentDetailModal #tsr-gunluk-rapor .flex.justify-between.items-center h3{
+      font-size: 1rem !important;
+      text-align: center;
+    }
+
+    /* Haftalık ve aylık rapor filtre satırları: label + select/input taşmasın */
+    #haftalik-rapor .flex.items-center.space-x-2,
+    #aylik-rapor .flex.items-center.space-x-2,
+    #parent-haftalik-rapor .flex.items-center.space-x-2,
+    #parent-aylik-rapor .flex.items-center.space-x-2,
+    #studentDetailModal #tsr-haftalik-rapor .flex.items-center.space-x-2,
+    #studentDetailModal #tsr-aylik-rapor .flex.items-center.space-x-2{
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
+      flex-shrink: 1 !important;
+    }
+
+    /* Select / month input genişliklerini esnek hale getir */
+    #haftalik-rapor select#student-week-select,
+    #parent-haftalik-rapor select#parent-week-select,
+    #studentDetailModal #tsr-haftalik-rapor select#tsr-week-select{
+      min-width: 0;
+      width: 100%;
+      max-width: 260px;
+    }
+    #aylik-rapor input#student-month-select,
+    #parent-aylik-rapor input#parent-month-select,
+    #studentDetailModal #tsr-aylik-rapor input#tsr-month-select{
+      min-width: 0;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    /* Ayrıntı tabloları: yazı boyutlarını biraz küçült, satırları sıkılaştır */
+    #gunluk-rapor .table-container th,
+    #gunluk-rapor .table-container td,
+    #haftalik-rapor .table-container th,
+    #haftalik-rapor .table-container td,
+    #aylik-rapor .table-container th,
+    #aylik-rapor .table-container td,
+    #parent-gunluk-rapor .table-container th,
+    #parent-gunluk-rapor .table-container td,
+    #parent-haftalik-rapor .table-container th,
+    #parent-haftalik-rapor .table-container td,
+    #parent-aylik-rapor .table-container th,
+    #parent-aylik-rapor .table-container td,
+    #studentDetailModal #tsr-gunluk-rapor .table-container th,
+    #studentDetailModal #tsr-gunluk-rapor .table-container td,
+    #studentDetailModal #tsr-haftalik-rapor .table-container th,
+    #studentDetailModal #tsr-haftalik-rapor .table-container td,
+    #studentDetailModal #tsr-aylik-rapor .table-container th,
+    #studentDetailModal #tsr-aylik-rapor .table-container td{
+      font-size: 0.75rem !important;
+      padding: 0.35rem 0.3rem !important;
+    }
+
+    /* Haftalık / aylık grafik kartları: mobilde biraz daha kısa */
+    #haftalik-rapor .h-64,
+    #aylik-rapor .h-64,
+    #parent-haftalik-rapor .h-64,
+    #parent-aylik-rapor .h-64,
+    #studentDetailModal #tsr-haftalik-rapor .h-64,
+    #studentDetailModal #tsr-aylik-rapor .h-64{
+      height: 13rem !important;
+    }
+  }
 </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-800 via-purple-800 to-indigo-900 text-white min-h-screen">
@@ -809,7 +912,22 @@
 </div>
 </div>
 </div>
+<div class="modal-backdrop" id="studentTeacherMsgModal">
+<div class="modal-content bg-transparent bg-opacity-20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white border-opacity-20 max-w-lg mx-auto">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-2xl font-bold text-purple-300">Öğretmen Mesajı</h2>
 </div>
+<p class="text-sm text-purple-200 mb-3" id="student-teacher-msg-from-line"></p>
+<div class="bg-black bg-opacity-30 rounded-xl p-4 border border-white border-opacity-10 mb-6">
+<p class="whitespace-pre-wrap text-gray-100" id="student-teacher-msg-text"></p>
+</div>
+<div class="flex justify-center">
+<button class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900" id="student-teacher-msg-close-btn">
+        Kapat ve Sil
+      </button>
+</div>
+</div>
+</div></div>
 <div class="hidden" id="parent-panel">
 <nav class="bg-transparent bg-opacity-20 backdrop-blur-lg shadow-lg border-b border-white border-opacity-10 sticky top-0 z-50" style="background: linear-gradient(135deg, #411d6e 0%, #4d2281 50%, #55258e 100%) !important;">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1198,9 +1316,8 @@
 <p class="text-gray-200 mb-4">Bu alan, seçili öğrenci için öğretmen tarafından bırakılan not veya mesaj içindir.</p>
 <div class="space-y-3">
 <textarea class="w-full p-3 rounded-lg dark-input min-h-[120px]" id="tsr-teacher-msg-input" placeholder="Mesajınızı yazın..."></textarea>
-<button id="tsr-teacher-msg-save" class="mx-auto block bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition">Mesajı Gönder</button>
+<button class="mx-auto block bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition" id="tsr-teacher-msg-save">Mesajı Gönder</button>
 </div>
-
 </div>
 </div>
 <div>
@@ -1329,22 +1446,6 @@
 </div>
 </div>
 </div>
-</div>
-<div class="modal-backdrop" id="studentTeacherMsgModal">
-  <div class="modal-content bg-transparent bg-opacity-20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white border-opacity-20 max-w-lg mx-auto">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-bold text-purple-300">Öğretmen Mesajı</h2>
-    </div>
-    <p id="student-teacher-msg-from-line" class="text-sm text-purple-200 mb-3"></p>
-    <div class="bg-black bg-opacity-30 rounded-xl p-4 border border-white border-opacity-10 mb-6">
-      <p id="student-teacher-msg-text" class="whitespace-pre-wrap text-gray-100"></p>
-    </div>
-    <div class="flex justify-end">
-      <button id="student-teacher-msg-close-btn" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900">
-        Kapat ve Sil
-      </button>
-    </div>
-  </div>
 </div>
 
 </div>
@@ -1577,6 +1678,33 @@ document.getElementById('parent-panel').classList.remove('hidden');
         }
 
         // Öğrenci panelinde öğretmen mesajını gösteren modal yardımcıları
+        
+        function getTurkishAblativeSuffix(name) {
+            if (!name) return "den";
+            var stem = String(name).trim();
+            if (!stem) return "den";
+            var lower = stem.toLocaleLowerCase('tr-TR');
+            var vowelsFront = "eiöü";
+            var vowelsBack = "aıou";
+            var lastVowel = null;
+            for (var i = lower.length - 1; i >= 0; i--) {
+                var ch = lower.charAt(i);
+                if (vowelsFront.indexOf(ch) !== -1 || vowelsBack.indexOf(ch) !== -1) {
+                    lastVowel = ch;
+                    break;
+                }
+            }
+            var vowel = 'e';
+            if (lastVowel && vowelsBack.indexOf(lastVowel) !== -1) {
+                vowel = 'a';
+            }
+            var lettersOnly = lower.replace(/[^a-zçğıöşü]/g, "");
+            var lastLetter = lettersOnly ? lettersOnly.charAt(lettersOnly.length - 1) : "";
+            var voiceless = "fstkçşhp";
+            var consonant = voiceless.indexOf(lastLetter) !== -1 ? 't' : 'd';
+            return consonant + vowel + 'n';
+        }
+
         function showStudentTeacherMessageModal(msgObj) {
             try {
                 var modal = document.getElementById('studentTeacherMsgModal');
@@ -1585,10 +1713,12 @@ document.getElementById('parent-panel').classList.remove('hidden');
                 var fromLineEl = document.getElementById('student-teacher-msg-from-line');
                 var textEl = document.getElementById('student-teacher-msg-text');
 
-                var teacherName = (msgObj && (msgObj.byName || msgObj.by)) ? (msgObj.byName || msgObj.by) : 'Öğretmen';
+                var teacherNameRaw = (msgObj && (msgObj.byName || msgObj.by)) ? (msgObj.byName || msgObj.by) : 'Öğretmen';
+                var teacherName = (typeof toTitleCaseTR === 'function') ? toTitleCaseTR(teacherNameRaw) : teacherNameRaw;
+                var ablSuffix = getTurkishAblativeSuffix(teacherName);
 
                 if (fromLineEl) {
-                    fromLineEl.textContent = 'Öğretmen ' + teacherName + '’den mesaj var.';
+                    fromLineEl.textContent = 'Öğretmenin ' + teacherName + "'" + ablSuffix + ' mesaj var.';
                 }
                 if (textEl) {
                     textEl.textContent = (msgObj && msgObj.text) ? msgObj.text : '';
@@ -1607,8 +1737,9 @@ document.getElementById('parent-panel').classList.remove('hidden');
             }
         }
 
+
         // Öğrenci girişi sonrasında, varsa öğretmen mesajını kontrol edip göster
-        function checkStudentTeacherMessage() {
+                function checkStudentTeacherMessage() {
             try {
                 if (typeof database === 'undefined' || !database || !database.ref) return;
                 if (currentUserRole !== 'ogrenci') return;
@@ -1616,21 +1747,15 @@ document.getElementById('parent-panel').classList.remove('hidden');
                 var sid = currentStudentId;
                 if (!sid) return;
 
-                var msgRef = database.ref('users/ogrenciler/' + sid + '/ogretmenMesaji');
+                var primaryRef = database.ref('students/' + sid + '/teacherMessage');
+                var legacyRef  = database.ref('users/ogrenciler/' + sid + '/ogretmenMesaji');
 
-                msgRef.once('value').then(function(snapshot){
-                    if (!snapshot.exists()) return;
-
-                    var data = snapshot.val() || {};
-                    if (!data.text) return;
-
-                    showStudentTeacherMessageModal(data);
-
+                function bindCloseButton(refToClear) {
                     var btn = document.getElementById('student-teacher-msg-close-btn');
                     if (btn && !btn.dataset.boundTeacherMsg) {
                         btn.dataset.boundTeacherMsg = 'true';
                         btn.addEventListener('click', function(){
-                            msgRef.remove()
+                            refToClear.remove()
                                 .catch(function(err){
                                     console.error('Öğretmen mesajı silinemedi:', err);
                                 })
@@ -1647,6 +1772,36 @@ document.getElementById('parent-panel').classList.remove('hidden');
                                 });
                         });
                     }
+                }
+
+                primaryRef.once('value').then(function(snapshot){
+                    if (snapshot && snapshot.exists()) {
+                        var raw = snapshot.val() || {};
+                        if (!raw.msg) return;
+
+                        var data = {
+                            text: raw.msg,
+                            byName: raw.teacher || 'Öğretmen',
+                            at: raw.ts || null
+                        };
+
+                        showStudentTeacherMessageModal(data);
+                        bindCloseButton(primaryRef);
+                        return;
+                    }
+
+                    // Eski path'ten de kontrol et (geriye dönük uyumluluk)
+                    legacyRef.once('value').then(function(snapshotOld){
+                        if (!snapshotOld || !snapshotOld.exists()) return;
+
+                        var legacy = snapshotOld.val() || {};
+                        if (!legacy.text) return;
+
+                        showStudentTeacherMessageModal(legacy);
+                        bindCloseButton(legacyRef);
+                    }).catch(function(err){
+                        console.error('Eski öğretmen mesajı kontrol edilirken hata:', err);
+                    });
                 }).catch(function(err){
                     console.error('Öğretmen mesajı kontrol edilirken hata:', err);
                 });
@@ -3525,7 +3680,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // === ÖĞRETMEN MESAJI SEKME MANTIĞI (Firebase tabanlı) ===
 (function(){
   function pathForStudentMessage(id){
-    return 'users/ogrenciler/' + id + '/ogretmenMesaji';
+    return 'students/' + id + '/teacherMessage';
   }
 
   function attachTeacherMessageHandlers(){
@@ -3552,10 +3707,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
       try {
         var payload = {
-          text: t,
-          byName: (typeof currentUserName !== 'undefined' && currentUserName) ? currentUserName : 'Öğretmen',
-          byId: (typeof currentUserId !== 'undefined') ? currentUserId : null,
-          at: new Date().toISOString()
+          msg: t,
+          teacher: (typeof currentUserName !== 'undefined' && currentUserName) ? currentUserName : 'Öğretmen',
+          ts: Date.now(),
+          fromTeacherId: (typeof currentTeacherId !== 'undefined')
+            ? currentTeacherId
+            : ((typeof currentUserId !== 'undefined') ? currentUserId : null)
         };
 
         if (typeof database === 'undefined' || !database || !database.ref) {
@@ -3673,4 +3830,89 @@ document.addEventListener('DOMContentLoaded', function () {
   // Geç yüklenen DOM için güvence
   document.addEventListener('DOMContentLoaded', applyCalendarSizing);
 })();
+</script>
+
+
+<!-- PATCH: Ad & Soyad Görünümü — İlk Harf Büyük, Diğerleri Küçük (v1) -->
+<script>
+  (function(){
+    /**
+     * Metni "Ad Soyad" formatına çevirir.
+     * İlk harfler büyük, kalan tüm harfler küçük olur.
+     */
+    function toTitleCaseName(str){
+      if(!str) return "";
+      // Trim + iç içe boşlukları teke düşür
+      str = String(str).trim().replace(/\s+/g, " ");
+      if(!str) return "";
+      return str
+        .split(" ")
+        .map(function(word){
+          if(!word) return "";
+          // Tire ve apostrof içeren isimler için her parçayı ayrı işle
+          var parts = word.split(/([-'’])/);
+          for(var i = 0; i < parts.length; i++){
+            var part = parts[i];
+            if(part === "-" || part === "'" || part === "’") continue;
+            if(part.length === 0) continue;
+            var first = part.charAt(0).toLocaleUpperCase('tr-TR');
+            var rest  = part.slice(1).toLocaleLowerCase('tr-TR');
+            parts[i] = first + rest;
+          }
+          return parts.join("");
+        })
+        .join(" ");
+    }
+
+    function attachNameInputFormatter(id){
+      var el = document.getElementById(id);
+      if(!el) return;
+      // Kullanıcı yazmayı bitirdiğinde veya odak kaybettiğinde formatla
+      el.addEventListener("blur", function(){
+        el.value = toTitleCaseName(el.value);
+      });
+    }
+
+    function formatNameElement(el){
+      if(!el) return;
+      var current   = (el.textContent || el.innerText || "").trim();
+      var formatted = toTitleCaseName(current);
+      if(current !== formatted){
+        el.textContent = formatted;
+      }
+    }
+
+    function observeAndFormatName(id){
+      var el = document.getElementById(id);
+      if(!el || !window.MutationObserver) return;
+      // İlk formatlama
+      formatNameElement(el);
+      // Sonradan JS ile değişen içerikler için gözlemci
+      var observer = new MutationObserver(function(){
+        formatNameElement(el);
+      });
+      observer.observe(el, { childList: true, characterData: true, subtree: true });
+    }
+
+    document.addEventListener("DOMContentLoaded", function(){
+      // Kayıt & giriş formlarındaki ad/soyad alanları
+      [
+        "reg-ad",
+        "reg-soyad",
+        "veli-reg-ad",
+        "veli-reg-soyad",
+        "ogretmen-login-ad"
+      ].forEach(attachNameInputFormatter);
+
+      // Ekranda görüntülenen kullanıcı / öğrenci / öğretmen isimleri
+      [
+        "teacher-stat-daily-name",
+        "teacher-stat-weekly-name",
+        "teacher-stat-monthly-name",
+        "teacher-welcome-name",
+        "teacher-welcome-name-below",
+        "welcome-user-name"
+      ].forEach(observeAndFormatName);
+    });
+  })();
 </script>
