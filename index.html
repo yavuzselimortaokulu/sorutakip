@@ -3755,53 +3755,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 
-<!-- AUTO-SCALE TABLES FOR MOBILE: preserve layout but shrink if overflow -->
-<style id="autoscale-table-style">
-/* Smooth scaling without changing table structure */
+<!-- IMPROVED AUTO-SCALE: wrap weekly/monthly tables if not wrapped and target more selectors -->
+<style id="autoscale-table-style-2">
 .table-container { position: relative; overflow-x: hidden; }
 .table-container table { transition: transform 150ms ease, opacity 120ms ease; transform-origin: left top; will-change: transform; }
-.table-container.auto-scaled { /* ensure small screens keep the right height after scaling */ }
 </style>
 
-<script id="autoscale-table-script">
+<script id="autoscale-table-script-2">
 (function(){
-  // Debounce helper
   function debounce(fn, wait){ var t; return function(){ clearTimeout(t); t = setTimeout(fn, wait); }; }
+
+  function wrapTargetTables(){
+    var selectors = [
+      '[id*=\"haft\"]', '[class*=\"haft\"]', '[id*=\"haftalik\"]', '[class*=\"haftalik\"]',
+      '[id*=\"aylik\"]', '[class*=\"aylik\"]', '[id*=\"gunl\"]', '[class*=\"gunl\"]'
+    ];
+    var roots = new Set();
+    selectors.forEach(function(sel){
+      try{
+        document.querySelectorAll(sel).forEach(function(el){ roots.add(el); });
+      }catch(e){}
+    });
+    document.querySelectorAll('h1,h2,h3,h4,h5,h6,section,div').forEach(function(el){
+      try{
+        if(el.textContent && /haft/i.test(el.textContent)) roots.add(el);
+      }catch(e){}
+    });
+
+    roots.forEach(function(root){
+      root.querySelectorAll('table').forEach(function(tbl){
+        if(tbl.closest('.table-container')) return;
+        var wrapper = document.createElement('div');
+        wrapper.className = 'table-container';
+        tbl.parentNode.insertBefore(wrapper, tbl);
+        wrapper.appendChild(tbl);
+      });
+    });
+  }
 
   function fitAllTables(){
     var containers = document.querySelectorAll('.table-container');
     containers.forEach(function(container){
       var table = container.querySelector('table');
       if(!table) return;
-      // Reset previous transforms first
       table.style.transform = '';
       container.style.height = '';
       container.classList.remove('auto-scaled');
-
-      // Use scrollWidth to measure full table natural width
       var tableWidth = table.scrollWidth;
-      var containerWidth = container.clientWidth;
-
-      // If container width is 0 (hidden), retry later
+      var containerWidth = container.clientWidth || container.getBoundingClientRect().width;
       if(containerWidth <= 0) return;
-
-      // If table wider than container, compute scale factor
       if(tableWidth > containerWidth + 2){
-        var scale = (containerWidth - 8) / tableWidth; // small padding
+        var scale = (containerWidth - 8) / tableWidth;
         if(scale < 1){
           table.style.transform = 'scale(' + scale + ')';
-          // preserve clickable area by setting container height to scaled table height
-          var rect = table.getBoundingClientRect();
-          // get the table's unscaled height by temporarily measuring
-          var prevTransform = table.style.transform;
+          var prev = table.style.transform;
           table.style.transform = '';
           var naturalHeight = table.getBoundingClientRect().height;
-          table.style.transform = prevTransform;
+          table.style.transform = prev;
           container.style.height = (naturalHeight * scale) + 'px';
           container.classList.add('auto-scaled');
         }
       } else {
-        // no scaling needed; ensure natural sizing
         table.style.transform = '';
         container.style.height = '';
         container.classList.remove('auto-scaled');
@@ -3809,25 +3823,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Run on DOM ready and window load
-  document.addEventListener('DOMContentLoaded', function(){ setTimeout(fitAllTables, 60); });
-  window.addEventListener('load', function(){ setTimeout(fitAllTables, 60); });
-  // Recalculate on resize/orientation change
-  window.addEventListener('orientationchange', debounce(fitAllTables, 120));
+  var tryInit = debounce(function(){
+    wrapTargetTables();
+    fitAllTables();
+  }, 80);
+
+  document.addEventListener('DOMContentLoaded', tryInit);
+  window.addEventListener('load', tryInit);
   window.addEventListener('resize', debounce(fitAllTables, 120));
+  window.addEventListener('orientationchange', debounce(fitAllTables, 120));
 
-  // Observe mutations inside report sections to adapt when table contents change dynamically
-  var observer = new MutationObserver(debounce(fitAllTables, 160));
-  var watchRoots = document.querySelectorAll('#gunluk-rapor, #haftalik-rapor, #aylik-rapor, #parent-gunluk-rapor, #parent-haftalik-rapor, #parent-aylik-rapor, #studentDetailModal');
-  watchRoots.forEach(function(root){
-    if(root) observer.observe(root, { childList: true, subtree: true, characterData: true });
-  });
+  var observer = new MutationObserver(debounce(function(m){ wrapTargetTables(); fitAllTables(); }, 160));
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 
-  // Also run once a bit later in case fonts or charts change dimensions
-  setTimeout(fitAllTables, 400);
-  setTimeout(fitAllTables, 1200);
-
-  // Expose for debugging and manual trigger
   window.__fitReportTables = fitAllTables;
 })();
 </script>
